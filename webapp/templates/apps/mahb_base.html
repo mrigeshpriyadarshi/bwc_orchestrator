@@ -1,0 +1,32 @@
+{% extends 'apps/bootstrap.html' %}
+
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% load staticfiles %}
+
+{% block bootstrap3_extra_head %}
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/se.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap4.min.css' %}" type="text/css">
+    <link rel="icon" href="{% static 'css/images/favicon.ico' %}" />
+    {% block extra_head %}{% endblock %}
+
+{% endblock %}
+
+{% block bootstrap3_content %}
+
+	<div class="{% block body_class %}(body){% endblock %}">
+		<div id="topbar">
+			<div><a href="./"><img src="{% static 'css/images/logo.png' %}" width="188" height="63" alt=""></a></div>
+		</div>
+		{% include "apps/mahb_form.html" %}
+
+		{% autoescape off %}{% bootstrap_messages %}{% endautoescape %}
+
+		{% block content %}(no content){% endblock %}
+	{% include "apps/footer.html" %}	
+	</div>
+
+{% endblock %}
