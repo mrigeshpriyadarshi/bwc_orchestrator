@@ -27,21 +27,25 @@ MEDIA_CHOICES = (
 )
 
 VDX_HOST = (
+    ('host3', '--- Select Hostname ---'),
     ('10.88.88.146', '10.88.88.146'),
-    ('host3', '--- Select Hostname ---')
 )
 
 ICX_HOST = (
+    ('host', '--- Select Hostname ---'),
     ('192.168.10.65', '192.168.10.65'),
-    ('host3', '--- Select Hostname ---')
 )
 
 EMAIL_LIST = (
+    ('mail3', '--- Select Email ID ---'),
     ('mpriyada@brocade.com', 'mpriyada@brocade.com'),
     ('pfong@brocade.com', 'pfong@brocade.com'),
-    ('mail3', '--- Select Email ID ---')
 )
 
+ICX_PORTS = (
+    ('ports', '--- Select available ports ---'),
+    ('22', '22'),
+)
 
 class ContactForm(TestForm):
     pass
@@ -80,17 +84,41 @@ class ArticleForm(forms.Form):
         raise forms.ValidationError("This error was added to show the non field errors styling.")
         return cleaned_data
 
-class LoginForm(forms.Form):
-        email = forms.CharField(label=(u'Email'), max_length=18)
-        password = forms.CharField(label=(u'Pass'), widget=forms.PasswordInput(render_value=False), max_length=20)
 
-class MAHBForm(forms.Form):
-        vdx_host = forms.ChoiceField(choices=VDX_HOST, required=True, label=(u'vdx_host'))
-        vdx_username = forms.CharField(label=(u'vdx_username'), max_length=10)
-        vdx_password = forms.CharField(label=(u'vdx_password'), widget=forms.PasswordInput(render_value=False), max_length=10)
-        vlanid = forms.CharField(label=(u'vlanid'), max_length=10)
-        vlan_name = forms.CharField(label=(u'vlan_name'), max_length=10)
-        icx_host = forms.ChoiceField(choices=ICX_HOST, required=True, label=(u'icx_host'))
-        icx_username = forms.CharField(label=(u'icx_username'), max_length=10)
-        icx_password = forms.CharField(label=(u'icx_password'), widget=forms.PasswordInput(render_value=False), max_length=10)
+class ChoiceFieldNoValidation(forms.ChoiceField):
+    def validate(self, value):
+        pass
+
+class LoginForm(forms.Form):
+        email = forms.CharField(label=(u''), max_length=18, strip=True)
+        password = forms.CharField(label=(u''), widget=forms.PasswordInput(render_value=False), max_length=20)
+
+class MAHBCustForm(forms.Form):
+        cust_name = forms.CharField(label=(u'Customer Name'), max_length=10)
+
+class MahbCustAuditForm(forms.Form):
+        cust_name = ChoiceFieldNoValidation(label=(u'Customer Name'))
+        def __init__(self, *args, **kwargs):
+            super(MahbCustAuditForm, self).__init__(*args, **kwargs)
+            self.fields['cust_name'].choices = [(x.pk, x.get_full_name()) for x in User.objects.all()]
+
+class MAHBCustConfigForm(forms.Form):
+        vdx_host = ChoiceFieldNoValidation(label=(u'VDX Host'))
+        vlanid = forms.CharField(label=(u'VLan ID'), max_length=10)
+        vlan_name = forms.CharField(label=(u'VLan Name'), max_length=10)
+        icx_host = ChoiceFieldNoValidation(label=(u'ICX Host'))
+        email = ChoiceFieldNoValidation(label=(u'Email ID'))
+
+class MAHBCustConfirmForm(forms.Form):
+        vdx_host = forms.CharField(label=(u'VDX Host'))
+        vlanid = forms.CharField(label=(u'VLan ID'), max_length=10)
+        vlan_name = forms.CharField(label=(u'VLan Name'), max_length=10)
+        icx_host = forms.CharField(label=(u'ICX Host'))
+        icx_avail_ports = ChoiceFieldNoValidation(label=(u'ICX Avail Ports'))
+        email = forms.CharField(label=(u'Email ID'))
+
+class ICXTelmetricForm(forms.Form):
+        hosts = forms.ChoiceField(choices=ICX_HOST, required=True, label=(u'Hosts'))
+        username = forms.CharField(label=(u'Username'), max_length=10)
+        password = forms.CharField(label=(u'Password'), widget=forms.PasswordInput(render_value=False), max_length=10)
         email = forms.ChoiceField(choices=EMAIL_LIST, required=True, label=(u'Email'))

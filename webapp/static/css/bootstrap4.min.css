@@ -337,7 +337,12 @@ input[type=date], input[type=time], input[type=datetime-local], input[type=month
 	-webkit-appearance: listbox
 }
 textarea {
-	resize: vertical
+	resize: both;
+	overflow: auto;
+	width: 70%;
+	height: 500px;
+	border: 1px solid blue;
+    	box-sizing: border-box;
 }
 fieldset {
 	min-width: 0;
@@ -1651,6 +1656,7 @@ select.form-control:focus::-ms-value {
 	height: 3.166667rem
 }
 .form-group {
+	margin-top: 1rem;
 	margin-bottom: 1rem
 }
 .form-text {
