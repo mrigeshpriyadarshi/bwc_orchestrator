@@ -1,15 +1,30 @@
+{% extends 'apps/login_base.html' %}
+
+{% load bootstrap3 %}
 {% load staticfiles %}
+
+{% block title %}
+    Login
+{% endblock %}
+{% block body_class %}bg-login{% endblock %}
+{% block content %}
+
 
         <div class="container">
             <div class="row">
                 <div class="col-sm-6 col-md-4 col-md-offset-4">
                     <h1 class="text-center login-title">Sign in to continue</h1>
                     <div class="account-wall">
-                        <img class="profile-img" src="{% static 'css/images/login.png' %}"
-                            alt="">
+                        <img class="profile-img" src="{% static 'css/images/login.png' %}" alt="">
                             {% if form.errors %}
                                   <p>Your username and password didn't match. Please try again.</p>
                             {% endif %}
+    <form class="form-horizontal" role="form" action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form layout="horizontal" type="non_fields" %}
+        {% bootstrap_form_errors form layout="horizontal" %}
+        {% buttons submit='Sign in' layout='horizontal' %}{% endbuttons %}
+    </form>
                         <form class="form-signin" role="form" action="{% url 'login' %}" method="POST">{% csrf_token %}
                         <input type="text" class="form-control" placeholder="Email" required autofocus>
                         <input type="password" class="form-control" placeholder="Password" required>
@@ -26,3 +41,4 @@
                 </div>
             </div>
         </div>
+{% endblock %}

@@ -8,7 +8,7 @@
 {% block bootstrap3_extra_head %}
     <link rel="stylesheet" href="{% static 'css/reset.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/se.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'css/login.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/bootstrap4.min.css' %}" type="text/css">
     <link rel="icon" href="{% static 'css/images/favicon.ico' %}" />
     {% block extra_head %}{% endblock %}
@@ -17,16 +17,15 @@
 
 {% block bootstrap3_content %}
 
-	<div class="{% block body_class %}(body){% endblock %}">
-		<div id="topbar">
-			<div><a href="./"><img src="{% static 'css/images/logo.png' %}" width="188" height="63" alt=""></a></div>
-		</div>
-		{% include "apps/mahb_form.html" %}
+    <div class="{% block body_class %}(body){% endblock %}">
+        <div id="topbar">
+            <div><a href="./"><img src="{% static 'css/images/logo.png' %}" width="188" height="63" alt=""></a></div>
+        </div>
 
-		{% autoescape off %}{% bootstrap_messages %}{% endautoescape %}
+        {% autoescape off %}{% bootstrap_messages %}{% endautoescape %}
 
-		{% block content %}(no content){% endblock %}
-	{% include "apps/footer.html" %}	
-	</div>
+        {% block content %}(no content){% endblock %}
+    {% include "apps/footer.html" %}    
+    </div>
 
 {% endblock %}

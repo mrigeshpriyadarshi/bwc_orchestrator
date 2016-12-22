@@ -4,19 +4,19 @@
 {% load staticfiles %}
 
 {% block title %}
-    MAHB
+    Add Customer
 {% endblock %}
 {% block body_class %}bg-green{% endblock %}
 {% block content %}
 
     <div class="form-layout">
 	    <div class="output">
-		<h4>MAHB Config details:</h4>
-		<form class="form-horizontal" role="form" action="{% url 'mreq' %}" method="POST">
+		<h4>MAHB Customer:</h4>
+		<form class="form-horizontal" role="form" action="{% url 'addmahbcustomer' %}" method="POST">
 			{% csrf_token %}
 			{% bootstrap_form_errors form layout="horizontal" %}
 			{% bootstrap_form form layout="horizontal" type="non_fields" %}
-			{% buttons submit='Execute' reset='Reset' layout='horizontal' %}{% endbuttons %}
+			{% buttons submit='Create' layout='horizontal' %}{% endbuttons %}
 		</form>
 	      </div>
     </div>

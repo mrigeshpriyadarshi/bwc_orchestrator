@@ -1,4 +1,4 @@
-{% extends 'apps/base.html' %}
+{% extends 'apps/form_base.html' %}
 
 {% load bootstrap3 %}
 {% load staticfiles %}
@@ -9,10 +9,11 @@
 {% block body_class %}bg-purple{% endblock %}
 {% block content %}
 
-    <form role="form" class="form-horizontal" method="post">
+    <form class="form-horizontal" role="form" action="{% url 'icxreq' %}" method="POST">
         {% csrf_token %}
+        {% bootstrap_form_errors form layout="horizontal" %}
         {% bootstrap_form form layout="horizontal" type="non_fields" %}
-        {% buttons submit='OK' reset='Cancel' layout='horizontal' %}{% endbuttons %}
+        {% buttons submit='Execute' reset='Reset' layout='horizontal' %}{% endbuttons %}
     </form>
 
 {% endblock %}
