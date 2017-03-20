@@ -6,11 +6,16 @@
 {% load staticfiles %}
 
 {% block bootstrap3_extra_head %}
-    <link rel="stylesheet" href="{% static 'css/reset.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'mahb/static/css/reset.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/se.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/login.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/bootstrap1.css' %}" type="text/css">
     <link rel="icon" href="{% static 'css/images/favicon.ico' %}" />
+<!--     <link rel="stylesheet" href="{% static 'mahb/css/reset.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'mahb/css/se.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'mahb/css/login.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'mahb/css/bootstrap1.css' %}" type="text/css">
+    <link rel="icon" href="{% static 'mahb/css/images/favicon.ico' %}" /> -->
     {% block extra_head %}{% endblock %}
 
 {% endblock %}
@@ -19,7 +24,7 @@
 
 	<div class="{% block body_class %}(body){% endblock %}">
 		<div id="topbar">
-			<div><a href="./"><img src="{% static 'css/images/logo.png' %}" width="188" height="63" alt=""></a></div>
+			<div><a href="./"><img src="{% static 'mahb/css/images/logo.png' %}" width="188" height="63" alt=""></a></div>
 		</div>
 
 		{% autoescape off %}{% bootstrap_messages %}{% endautoescape %}

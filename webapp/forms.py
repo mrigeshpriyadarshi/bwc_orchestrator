@@ -4,8 +4,9 @@ from __future__ import unicode_literals
 from django import forms
 from django.forms.formsets import BaseFormSet, formset_factory
 
-
+from collections import OrderedDict as SortedDict
 from bootstrap3.tests import TestForm
+from mongodbforms import *
 
 RADIO_CHOICES = (
     ('1', 'Radio 1'),
@@ -98,9 +99,6 @@ class MAHBCustForm(forms.Form):
 
 class MahbCustAuditForm(forms.Form):
         cust_name = ChoiceFieldNoValidation(label=(u'Customer Name'))
-        def __init__(self, *args, **kwargs):
-            super(MahbCustAuditForm, self).__init__(*args, **kwargs)
-            self.fields['cust_name'].choices = [(x.pk, x.get_full_name()) for x in User.objects.all()]
 
 class MAHBCustConfigForm(forms.Form):
         vdx_host = ChoiceFieldNoValidation(label=(u'VDX Host'))
@@ -122,3 +120,15 @@ class ICXTelmetricForm(forms.Form):
         username = forms.CharField(label=(u'Username'), max_length=10)
         password = forms.CharField(label=(u'Password'), widget=forms.PasswordInput(render_value=False), max_length=10)
         email = forms.ChoiceField(choices=EMAIL_LIST, required=True, label=(u'Email'))
+
+class MahbCustFom(DocumentForm):
+        cust_name = ChoiceFieldNoValidation(label=(u'Customer Name'))
+ 
+class MAHBCustEditForm(forms.Form):
+        vdx_host = forms.CharField(label=(u'VDX Host'))
+        vlanid = forms.CharField(label=(u'VLan ID'), max_length=10)
+        vlan_name = forms.CharField(label=(u'VLan Name'), max_length=10)
+        icx_host = forms.CharField(label=(u'ICX Host'))
+        icx_untagged_port = forms.CharField(label=(u'ICX Tagged Port'))
+        icx_avail_ports = ChoiceFieldNoValidation(label=(u'ICX Avail Ports'))
+        email = forms.CharField(label=(u'Email ID'))

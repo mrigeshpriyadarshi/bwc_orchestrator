@@ -26,8 +26,11 @@ from django.utils.safestring import SafeString
 from pymongo import MongoClient
 from bson import json_util
 
+from django.shortcuts import render
+from models import Customers_vlan, Customers_config
+
 from .forms import ContactForm, FilesForm, ContactFormSet, LoginForm, MahbCustAuditForm, ICXTelmetricForm, MAHBCustConfigForm, MAHBCustForm, \
-    MAHBCustConfirmForm
+    MAHBCustConfirmForm, MAHBCustEditForm
 
 
 def mongodb_client():
@@ -35,8 +38,12 @@ def mongodb_client():
         return client.webapp
 
 def mongodb_insert(collection, data):
-        result = mongodb_client()[collection].insert(data)
-        return result
+        try:
+            result = mongodb_client()[collection].insert(data)
+        except Exception as e:
+            result = mongodb_client()[collection].update({"_id": data['_id']}, data)
+        finally:
+            return result
 
 def get_mongo_id_list(collection):
         id_list = []
@@ -49,7 +56,7 @@ def get_mongo_id_list(collection):
 
 def populate_mongo_params(id, params):
     parameters = {
-    "_id": id,
+    "_id": int(id),
     }
     # new_dict = {i:d[i] for d in [params,parameters] for i in d}
     parameters.update(params)
@@ -165,12 +172,6 @@ class IcxPageView(FormView):
     template_name = 'apps/icx_tel_form.html'
     form_class = ICXTelmetricForm
 
-
-class MahbCustAuditForm(FormView):
-    template_name = 'apps/mahb_form.html'
-    form_class = MahbCustAuditForm
-    # form_class.fields['cust_name'].choices = get_cust_name_tuple()
-
 class MahbCustForm(FormView):
     template_name = 'apps/mahb_cust_form.html'
     form_class = MAHBCustForm
@@ -178,9 +179,6 @@ class MahbCustForm(FormView):
 class Test_form(FormView):
     template_name = 'apps/mahb_cust_config_form.html'
     form_class = MAHBCustForm
-    # def get(self, request, *args, **kwargs):
-    #     form_class = MAHBCustForm(initial={'vlanid': '11', 'vlan_name': 'bar'}, auto_id=False)
-    #     return self.render_to_response(self.get_context_data(form=form_class))
 
 class MahbCusExecForm(FormView):
     template_name = 'apps/mahb_cust_exec_form.html'
@@ -227,17 +225,48 @@ def LoginRequest(request):
         # return render_to_response('/webapp/home', {'form': form}, context_instance=RequestContext(request))
 
 def MAHBCustAudit(request):
-    if request.method == 'GET':
-        print request.GET
-        # form = MahbCustAuditForm(request.GET)
-        # if form.is_valid():
-        form_class = MahbCustAuditForm(auto_id=False)
-        form_class.fields['cust_name'].choices = get_cust_name_tuple()
-        print form_class
-        return render_to_response('apps/thanks.html', {'exec_id': "exec_id", 'status': "status", 'output': ""})
-        # return render_to_response('apps/mahb_form.html', {'form': form_class}, context_instance=RequestContext(request))
+    # if request.method == 'GET':
+            cust_id_list = []
+            for cust in Customers_vlan.objects:
+                cust_id_list.append(cust.cust_name.encode('utf-8'))
+            for cust in Customers_config.objects(_id=13):
+                print cust.vdx_host.encode('utf-8') 
+            form_class = MahbCustAuditForm(auto_id=False)
+            # form_class.fields['cust_name'].choices = tuple(tuple([x,x]) for x in [cust.cust_name.encode('utf-8')])
+            form_class.fields['cust_name'].choices = tuple(tuple([x,x]) for x in cust_id_list)
+            return render_to_response('apps/mahb_select_cust_edit_form.html', {'form': form_class}, context_instance=RequestContext(request))
+    # else:
+    #     return HttpResponseRedirect('/webapp/home')
+
+def MAHBCustEditReq(request):
+    if request.method == 'POST':
+        form = MahbCustAuditForm(request.POST)
+        if form.is_valid():
+            cust_name = form.cleaned_data['cust_name'].encode('utf-8')
+            icx_host = None
+            for cust in Customers_config.objects(vlan_name=cust_name):
+                icx_host = cust.icx_host
+                initial = {
+                    'vdx_host': cust.vdx_host,
+                    'icx_host': icx_host,
+                    'vlanid': cust.vlanid,
+                    'vlan_name': cust_name,
+                    'email': cust.email,
+                    'icx_untagged_port': cust.icx_untagged_port
+                }
+            form_class = MAHBCustEditForm(initial=initial, auto_id=False)
+            form_class.fields['vdx_host'].widget.attrs['readonly'] = True
+            form_class.fields['icx_host'].widget.attrs['readonly'] = True
+            form_class.fields['vlanid'].widget.attrs['readonly'] = True
+            form_class.fields['vlan_name'].widget.attrs['readonly'] = True
+            form_class.fields['email'].widget.attrs['readonly'] = True
+            form_class.fields['icx_untagged_port'].widget.attrs['readonly'] = True
+            form_class.fields['icx_avail_ports'].choices  = tuple(tuple([x,x]) for x in get_icx_ports(icx_host))
+                # print form_class
+            return render_to_response('apps/mahb_cust_edit_form.html', {'form': form_class}, context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect('/webapp/home')
+
 
 def MAHBCustAddReq(request):
     if request.method == 'POST':
@@ -304,19 +333,19 @@ def MAHBRequest(request):
                 "email": form.cleaned_data['email'].encode('utf-8'),
                 }
             print parameters
-            # response = bwc_api_post("demo.mahb_channel_allotment", parameters)
-            # exec_id, status = bwc_wait(response)
-            # mongo_parameters = {
-            #     "_id": vlanid,
-            #     "cust_name": vlan_name
-            #     }
+            response = bwc_api_post("demo.mahb_channel_allotment", parameters)
+            exec_id, status = bwc_wait(response)
+            mongo_parameters = {
+                "_id": vlanid,
+                "cust_name": vlan_name
+                }
             cust_vlanid_mongo_params = populate_mongo_params(vlanid, {"cust_name": vlan_name})
             cust_config_mongo_params = populate_mongo_params(vlanid, parameters)
-            # mongodb_insert("customers_vlan", cust_vlanid_mongo_params)
-            # mongodb_insert("customers_config", cust_config_mongo_params)
+            mongodb_insert("customers_vlan", cust_vlanid_mongo_params)
+            mongodb_insert("customers_config", cust_config_mongo_params)
             # response = mongodb_insert("customers_vlan", mongo_parameters)
             print cust_vlanid_mongo_params, cust_config_mongo_params
-            # return render_to_response('apps/thanks.html', {'exec_id': exec_id, 'status': status, 'output': bwc_api_get_result(exec_id)})
+            return render_to_response('apps/thanks.html', {'exec_id': exec_id, 'status': status, 'output': bwc_api_get_result(exec_id)})
             return render_to_response('apps/thanks.html', {'exec_id': "exec_id", 'status': "status", 'output': ""})
             # return HttpResponseRedirect('/webapp/thanks')
     else:
@@ -334,7 +363,7 @@ def ICXTelemetricsRequest(request):
                 }
             response = bwc_api_post("default.icx_telemetrics", parameters)
             exec_id, status = bwc_wait(response)
-            return render_to_response('apps/thanks.html', {'exec_id': exec_id, 'status': status, 'output': bwc_api_get_result(exec_id)})
+            return render_to_response('html/thanks.html', {'exec_id': exec_id, 'status': status, 'output': bwc_api_get_result(exec_id)})
             # return HttpResponseRedirect('/webapp/thanks')
     else:
         return HttpResponseRedirect('/webapp/home')

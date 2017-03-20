@@ -8,13 +8,14 @@ from django.conf.urls import url
 #     DefaultFormView, MiscView, DefaultFormsetView, DefaultFormByFieldView
 
 from .views import HomePageView, LoginPageView, LoginRequest, IcxPageView, ICXTelemetricsRequest, MAHBCustAudit, \
-    MAHBRequest, ThanksView, Test_form, MahbCustForm, MAHBCustAddReq, MAHBCustExecReq
+    MAHBRequest, ThanksView, Test_form, MahbCustForm, MAHBCustAddReq, MAHBCustExecReq, MAHBCustEditReq
 
 urlpatterns = [
     url(r'^$', LoginPageView.as_view(), name='index'),
-    url(r'^login$', LoginRequest, name='login'),
+    url(r'^loginform$', LoginRequest, name='loginform'),
     url(r'^home$', HomePageView.as_view(), name='webhome'),
     url(r'^mahb$', MAHBCustAudit, name='mahb'),
+    url(r'^mahbcustedit$', MAHBCustEditReq, name='mahbcustedit'),
     url(r'^mahbcustomer$', MahbCustForm.as_view(), name='mahbcustomer'),
     url(r'^addmahbcustomer$', MAHBCustAddReq, name='addmahbcustomer'),
     url(r'^confirmmahbcustomer$', MAHBCustExecReq, name='confirmmahbcustomer'),

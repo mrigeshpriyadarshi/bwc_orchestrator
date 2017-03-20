@@ -11,12 +11,12 @@
 
     <div class="form-layout">
 	    <div class="output">
-		<h4>MAHB Config details:</h4>
-		<form class="form-horizontal" role="form" action="{% url 'mreq' %}" method="POST">
+		<h4>MAHB Customer:</h4>
+		<form class="form-horizontal" role="form" action="{% url 'mahbcustedit' %}" method="POST">
 			{% csrf_token %}
 			{% bootstrap_form_errors form layout="horizontal" %}
 			{% bootstrap_form form layout="horizontal" type="non_fields" %}
-			{% buttons submit='Execute' reset='Reset' layout='horizontal' %}{% endbuttons %}
+			{% buttons submit='edit' layout='horizontal' %}{% endbuttons %}
 		</form>
 	      </div>
     </div>
