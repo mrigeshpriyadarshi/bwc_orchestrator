@@ -1,0 +1,26 @@
+
+{% extends 'html/form_base.html' %}
+
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+
+{% block title %}
+    Add Cust Config
+{% endblock %}
+{% block body_class %}bg-green{% endblock %}
+{% block content %}
+
+    <div class="form-layout">
+        <div class="output">
+        <h4>MAHB Config details:</h4>
+        <form class="form-horizontal" role="form" action="{% url 'confirmmahbcustomer' %}" method="POST">
+            {% csrf_token %}
+            {% bootstrap_form_errors form layout="horizontal" %}
+            {% bootstrap_form form layout="horizontal" type="non_fields" %}
+            {% buttons submit='Continue' layout='horizontal' %}{% endbuttons %}
+        </form>
+          </div>
+    </div>
+
+{% endblock %}

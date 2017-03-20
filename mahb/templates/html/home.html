@@ -1,0 +1,84 @@
+{% extends 'html/base.html' %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+
+{% block title %}Brocade C2C{% endblock %}
+{% block body_class %}bg-mix{% endblock %}
+{% block content %}
+
+
+      <div class="carousel fade-carousel slide" data-ride="carousel" data-interval="4000" id="bs-carousel">
+        <div class="overlay"></div>
+
+        <ol class="carousel-indicators">
+          <li data-target="#bs-carousel" data-slide-to="0" class="active"></li>
+          <li data-target="#bs-carousel" data-slide-to="1"></li>
+          <li data-target="#bs-carousel" data-slide-to="2"></li>
+        </ol>
+        
+        <div class="carousel-inner">
+          <div class="item slides active">
+            <div class="slide-1"></div>
+            <div class="hero">      
+              <hgroup>
+                  <h1>We are Brocade<img  src="{% static 'css/images/icon.png' %}"></h1>        
+                  <h4>&nbsp We make stuff</h4>
+              </hgroup>
+              <a href="https://brocade.com" class="btn btn-hero btn-lg" role="button" id="brocade">Take a tour</a>
+              </div>
+            </div>
+          <div class="item slides">
+            <div class="slide-2"></div>
+            <div class="hero">        
+              <hgroup>
+                  <h1>We are Ruckus<img  src="{% static 'css/images/ruckus_logo.jpg' %}"></h1>        
+                  <h4>&nbsp Wireless with Teeth</h4>
+              </hgroup>       
+              <a href="https://www.ruckuswireless.com"  class="btn btn-hero btn-lg" role="button" id="ruckus">Check it Out!</a>
+            </div>
+          </div>
+          <div class="item slides">
+            <div class="slide-3"></div>
+            <div class="hero">        
+              <hgroup>
+                  <h1>We are <font color="#FF6600">Stack</font><font color="#606060">Storm</font></h1>
+                  <!-- <h1>We are <img  style="vertical-align: baseline; max-width: 3.7%" src="{% static 'css/images/st2.png' %}"><font color="#FF6600">Stack</font><font color="#606060">Storm</font></h1> -->
+                  <h4>&nbsp  Event-Driven Automation</h4>
+              </hgroup>
+              <a href="https://stackstorm.com" class="btn btn-hero btn-lg" role="button" id="stackstorm">Dive In</a>
+            </div>
+          </div>
+        </div> 
+      </div>
+      <div class="container-fluid">
+      <div class="card-deck-wrapper">
+        <div class="card-deck">
+          <div class="card">
+            <img class="card-img-top" src="{% static 'css/images/new_b.png' %}">
+            <div class="card-block">
+              <h4 class="card-title">MAHB Cust</h4>
+              <p class="card-text">Portal of MAHB Customer audit for configuration comprising various devices.</p>
+             <a href="./selectcustomer" class="btn btn-primary">Go To Portal</a>
+            </div>
+          </div>
+          <div class="card">
+            <img class="card-img-top" src="{% static 'css/images/workflow1.png' %}">
+            <div class="card-block">
+              <h4 class="card-title">WorkFlow Engine</h4>
+              <p class="card-text">Portal of MAHB workflow for configuration comprising various devices.</p>
+             <a href="./addcustomer" class="btn btn-primary">Go To WorkFlow</a>
+            </div>
+          </div>
+          <div class="card">
+            <img class="card-img-top" src="{% static 'css/images/BFO.png' %}">
+            <div class="card-block">
+              <h4 class="card-title">Telemetric</h4>
+              <p class="card-text">To collect devices telemetrics across ICX, VDX and MLXe and display it parsed format.</p>
+             <a href="/webapp/icx" class="btn btn-primary">Go To Telemetrics</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+{% endblock %}

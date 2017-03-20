@@ -1,0 +1,31 @@
+{% extends 'html/base.html' %}
+
+{% load bootstrap3 %}
+{% load prettyjson %}
+
+{% block bootstrap3_extra_head %}
+   {% prettyjson_setup %}
+  {{ block.super }}
+    {% block extra_head %}{% endblock %}
+{% endblock %}
+
+{% block title %}
+    Thanks
+{% endblock %}
+{% block body_class %}bg-orange{% endblock %}
+{% block content %}
+<div class="output">
+	<h4>Check Logs at: &nbsp&nbsp<a href=https://10.88.88.140/#/history/{{exec_id}}>BWC </a></h4>
+	<h4>Execution id: <font color="#99ffcc">{{exec_id}}</font></h4>
+	<h4>Status: <font color="#00cc66">{{status}} </font></h4>
+	<h4>WorkFlow Output:</h4>
+
+	<div class="log">
+	{% prettyjson output %}
+
+
+	</div>
+</div>
+
+
+{% endblock %}
