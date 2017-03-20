@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import mongoengine
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,15 +29,54 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+# SESSION_SERIALIZER = 'mongoengine.django.sessions.BSONSerializer'
+
+# LOGGING = {
+#     'version': 1,
+#     'formatters': {
+#         'verbose': {
+#             'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+#         },
+#         'simple': {
+#             'format': '%(levelname)s %(message)s'
+#         },
+#     },
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'simple'
+#         }
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#             'propagate': True,
+#         },
+#         'django.request': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#             'propagate': False,
+#         },
+#     }
+# }
+
+DEFAULT_MESSAGE_LEVELS = 10
+
 # Application definition
 
 INSTALLED_APPS = [
+    'mahb',
+    'webapp',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'bootstrap3',
     'demo',
     'prettyjson',
@@ -57,7 +97,7 @@ ROOT_URLCONF = 'web_portal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["demo/templates", "webapp/templates"],
+        'DIRS': ["demo/templates", "webapp/templates", "mahb/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,8 +121,16 @@ WSGI_APPLICATION = 'web_portal.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.dummy',
+        # 'ENGINE': '',
+        'NAME': 'webapp',  
+        'USER': '',  
+        'PASSWORD': '',  
+        'HOST': '127.0.0.1',  
+        'PORT': '27017',  
+        'SUPPORTS_TRANSACTIONS': False,
     }
 }
 
@@ -125,7 +173,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = ["webapp/static"]
+STATICFILES_DIRS = ["*/static"]
+# STATICFILES_DIRS = ["/static_assests"]
 
 DJANGO_BOOTSTRAP_UI_THEME = 'bootswatch-paper'
 
@@ -135,3 +184,6 @@ BOOTSTRAP3 = {
     'required_css_class': 'bootstrap3-required',
     'javascript_in_head': True,
 }
+
+from mongoengine import connect
+connect('webapp', host='127.0.0.1', port=27017)
