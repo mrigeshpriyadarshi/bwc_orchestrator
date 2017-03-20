@@ -1,0 +1,195 @@
+a, abbr, acronym, address, applet, article, aside, audio,
+b, blockquote, big, body,
+center, canvas, caption, cite, code, command,
+datalist, dd, del, details, dfn, dl, div, dt, 
+em, embed,
+fieldset, figcaption, figure, font, footer, form, 
+h1, h2, h3, h4, h5, h6, header, hgroup, html,
+i, iframe, img, ins,
+kbd, 
+keygen,
+label, legend, li, 
+meter,
+nav,
+object, ol, output,
+p, pre, progress,
+q, 
+s, samp, section, small, span, source, strike, strong, sub, sup,
+table, tbody, tfoot, thead, th, tr, tdvideo, tt,
+u, ul, 
+var{
+    background: transparent;
+    border: 0 none;
+    font-size: 100%;
+    margin: 0;
+		padding: 0;
+		border: 0;
+		outline: 0;
+    vertical-align: top; }
+
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+table, table td { 
+	padding:0;
+	border:none;
+	border-collapse:collapse;
+}
+img {
+	vertical-align:top; 
+}
+embed { 
+	vertical-align:top;
+}
+
+.button {
+	display: inline-block;
+	font-weight: 400;
+	line-height: 1.25;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: 1px solid transparent;
+	padding: .5rem 1rem;
+	font-size: 1rem;
+	border-radius: .25rem
+}
+.button.active.focus, .button.active:focus, .button.focus, .button:active.focus, .button:active:focus, .button:focus {
+	outline: 5px auto -webkit-focus-ring-color;
+	outline-offset: -2px
+}
+.button:focus, .button:hover {
+	text-decoration: none
+}
+.button.focus {
+	text-decoration: none
+}
+.button.active, .button:active {
+	background-image: none;
+	outline: 0
+}
+.button.disabled, .button:disabled {
+	cursor: not-allowed;
+	opacity: .65
+}
+
+.parseraw {
+	display: inline-block;
+	font-weight: 400;
+	line-height: 1.25;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: 1px solid transparent;
+	padding: .5rem 1rem;
+	font-size: 1rem;
+	border-radius: .25rem
+	color: #fff;
+	background-color: #337ab7;
+	border-color: #2e6da4;
+}
+.parseraw:hover {
+	color: #fff;
+	background-color: #025aa5;
+	border-color: #01549b
+}
+.parseraw.focus, .parseraw:focus {
+	color: #fff;
+	background-color: #025aa5;
+	border-color: #01549b
+}
+.parseraw.active, .parseraw:active, .open>.parseraw.dropdown-toggle {
+	color: #fff;
+	background-color: #025aa5;
+	border-color: #01549b;
+	background-image: none
+}
+.parseraw.active.focus, .parseraw.active:focus, .parseraw.active:hover, .parseraw:active.focus, .parseraw:active:focus, .parseraw:active:hover, .open>.parseraw.dropdown-toggle.focus, .open>.parseraw.dropdown-toggle:focus, .open>.parseraw.dropdown-toggle:hover {
+	color: #fff;
+	background-color: #014682;
+	border-color: #01315a
+}
+.parseraw.disabled.focus, .parseraw.disabled:focus, .parseraw:disabled.focus, .parseraw:disabled:focus {
+	background-color: #0275d8;
+	border-color: #0275d8
+}
+.parseraw.disabled:hover, .parseraw:disabled:hover {
+	background-color: #0275d8;
+	border-color: #0275d8
+}
+.parsed {
+	font-weight: 400;
+	line-height: 1.25;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: 1px solid transparent;
+	padding: .5rem 1rem;
+	font-size: 1rem;
+	border-radius: .25rem;
+	color: #373a3c;
+	background-color: #fff;
+	border-color: #ccc;
+}
+.parsed:hover {
+	color: #373a3c;
+	background-color: #e6e6e6;
+	border-color: #adadad
+}
+.parsed.focus, .parsed:focus {
+	color: #373a3c;
+	background-color: #e6e6e6;
+	border-color: #adadad
+}
+.parsed.active, .parsed:active, .open>.parsed.dropdown-toggle {
+	color: #373a3c;
+	background-color: #e6e6e6;
+	border-color: #adadad;
+	background-image: none
+}
+.parsed.active.focus, .parsed.active:focus, .parsed.active:hover, .parsed:active.focus, .parsed:active:focus, .parsed:active:hover, .open>.parsed.dropdown-toggle.focus, .open>.parsed.dropdown-toggle:focus, .open>.parsed.dropdown-toggle:hover {
+	color: #373a3c;
+	background-color: #d4d4d4;
+	border-color: #8c8c8c
+}
+.parsed.disabled.focus, .parsed.disabled:focus, .parsed:disabled.focus, .parsed:disabled:focus {
+	background-color: #fff;
+	border-color: #ccc
+}
+.parsed.disabled:hover, .parsed:disabled:hover {
+	background-color: #fff;
+	border-color: #ccc
+}
+.output {
+	margin-left: 45px;
+	margin-top: 25px;
+}
+.log {
+	margin-left: 50px
+}
+.form-layout{
+	margin-top: 40px;
+	margin-left: 300px;
+	margin-right: 200px;
+	margin-bottom: 100px;
+	outline-style: solid;
+	border: 2px solid black;
+	outline-color: red;
+}
